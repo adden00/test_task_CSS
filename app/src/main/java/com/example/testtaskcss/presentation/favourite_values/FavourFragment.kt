@@ -14,11 +14,10 @@ import com.example.testtaskcss.databinding.FragmentFavourBinding
 import com.example.testtaskcss.presentation.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class FavourFragment: Fragment() {
+class FavourFragment : Fragment() {
     private lateinit var binding: FragmentFavourBinding
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var adapter: FavourRateAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,13 +32,7 @@ class FavourFragment: Fragment() {
         observeData()
         observeLoading()
         setAdapter()
-
-
-
-
     }
-
-
 
     private fun observeData() {
         lifecycleScope.launchWhenStarted {
@@ -58,7 +51,6 @@ class FavourFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.isLoading.collect {
                 binding.swipeToRefresh.isRefreshing = it
-
             }
         }
     }
@@ -69,9 +61,9 @@ class FavourFragment: Fragment() {
                 Snackbar.make(binding.root, "removed from favour", Snackbar.LENGTH_LONG).show()
                 viewModel.deleteRateFromFavour(item)
             }
-
         })
-        binding.rcRates.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rcRates.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcRates.adapter = adapter
     }
 

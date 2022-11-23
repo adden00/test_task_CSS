@@ -4,4 +4,9 @@
     <string name="popular">popular</string>
     <string name="favour">favour</string>
     <string name="search">search</string>
+    <string name="rate_name">Rate name</string>
+    <string name="rate">Rate</string>
+    <string name="delete">delete</string>
+    <string name="add">add</string>
+    <string name="type_currency">type currency...</string>
 </resources>

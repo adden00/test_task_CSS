@@ -30,7 +30,6 @@ class PopularRateAdapter(private val listener: Listener): ListAdapter<RateItem, 
                 listener.onBtnClick(item)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {

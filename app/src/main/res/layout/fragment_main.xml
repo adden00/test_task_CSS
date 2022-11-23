@@ -7,8 +7,6 @@
     android:background="@color/color_bg"
     tools:context=".presentation.MainFragment">
 
-
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"

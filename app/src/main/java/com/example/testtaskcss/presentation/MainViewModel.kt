@@ -1,11 +1,9 @@
 package com.example.testtaskcss.presentation
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.RateItem
-import com.example.domain.models.RateListItem
 import com.example.domain.usecases.DeleteFavourItemUseCase
 import com.example.domain.usecases.GetExchangeRatingUseCase
 import com.example.domain.usecases.GetFavourItemsUseCase
@@ -26,7 +24,6 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-
     private val _rateList = MutableStateFlow(listOf<RateItem>())
     val rateList: StateFlow<List<RateItem>> = _rateList.asStateFlow()
 
@@ -36,9 +33,6 @@ class MainViewModel @Inject constructor(
     private val _popularRateList = MutableStateFlow(listOf<RateItem>())
     val popularRateList: StateFlow<List<RateItem>> = _popularRateList.asStateFlow()
 
-
-
-
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
@@ -47,7 +41,6 @@ class MainViewModel @Inject constructor(
             loadFavoursFromDb()
             loadPopularRate()
         }
-
     }
 
     fun loadRate(currencies: String) {
@@ -55,13 +48,11 @@ class MainViewModel @Inject constructor(
         val curList = _rateList.value.toMutableList()
         viewModelScope.launch {
             val result = getExchangeUseCase(currencies)
-//            var flag = false
             val temp = result.toMutableList()
             result.forEach {
                 if (it in _rateList.value)
                     temp.remove(it)
             }
-
             _rateList.value = curList + temp
             _isLoading.value = false
         }
@@ -79,14 +70,11 @@ class MainViewModel @Inject constructor(
     }
 
 
-
     fun insetRateToFavour(item: RateItem) {
         viewModelScope.launch {
             insertFavourItemUseCase(item)
             loadFavoursFromDb()
         }
-
-
     }
 
     fun updateFavouriteRate() {
@@ -112,16 +100,11 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             deleteFavourItemUseCase(item)
             loadFavoursFromDb()
-
         }
-
     }
 
     private suspend fun loadFavoursFromDb() {
-       val result = getFavourItemsUseCase()
-       _favourRateList.value = result
-
+        val result = getFavourItemsUseCase()
+        _favourRateList.value = result
     }
-
-
 }

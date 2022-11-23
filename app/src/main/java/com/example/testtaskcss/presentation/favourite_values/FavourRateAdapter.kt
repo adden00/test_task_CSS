@@ -10,17 +10,18 @@ import com.example.domain.models.RateItem
 import com.example.testtaskcss.R
 import com.example.testtaskcss.databinding.ExchangeRateFavourItemBinding
 
-class FavourRateAdapter(private val listener: Listener): ListAdapter<RateItem, FavourRateAdapter.ItemHolder>(object : DiffUtil.ItemCallback<RateItem>() {
-    override fun areItemsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
-        return oldItem.name == newItem.name
-    }
+class FavourRateAdapter(private val listener: Listener) :
+    ListAdapter<RateItem, FavourRateAdapter.ItemHolder>(object : DiffUtil.ItemCallback<RateItem>() {
+        override fun areItemsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
+            return oldItem.name == newItem.name
+        }
 
-    override fun areContentsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
-        return oldItem == newItem
-    }
+        override fun areContentsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
+            return oldItem == newItem
+        }
 
-}) {
-    class ItemHolder(private val view: View): RecyclerView.ViewHolder(view) {
+    }) {
+    class ItemHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
         fun setData(item: RateItem, listener: Listener) {
             val binding = ExchangeRateFavourItemBinding.bind(view)
@@ -34,7 +35,10 @@ class FavourRateAdapter(private val listener: Listener): ListAdapter<RateItem, F
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        return ItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.exchange_rate_favour_item, parent, false))
+        return ItemHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.exchange_rate_favour_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {

@@ -8,20 +8,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.models.RateItem
 import com.example.testtaskcss.R
-import com.example.testtaskcss.databinding.ExchangeRatePopularItemBinding
 import com.example.testtaskcss.databinding.ExchangeRateSearchItemBinding
 
-class SearchRateAdapter(private val listener: Listener): ListAdapter<RateItem, SearchRateAdapter.ItemHolder>(object : DiffUtil.ItemCallback<RateItem>() {
-    override fun areItemsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
-        return oldItem.name == newItem.name
-    }
+class SearchRateAdapter(private val listener: Listener) :
+    ListAdapter<RateItem, SearchRateAdapter.ItemHolder>(object : DiffUtil.ItemCallback<RateItem>() {
+        override fun areItemsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
+            return oldItem.name == newItem.name
+        }
 
-    override fun areContentsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
-        return oldItem == newItem
-    }
+        override fun areContentsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
+            return oldItem == newItem
+        }
 
-}) {
-    class ItemHolder(private val view: View): RecyclerView.ViewHolder(view) {
+    }) {
+    class ItemHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
         fun setData(item: RateItem, listener: Listener) {
             val binding = ExchangeRateSearchItemBinding.bind(view)
@@ -31,11 +31,13 @@ class SearchRateAdapter(private val listener: Listener): ListAdapter<RateItem, S
                 listener.onBtnClick(item)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        return ItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.exchange_rate_search_item, parent, false))
+        return ItemHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.exchange_rate_search_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {

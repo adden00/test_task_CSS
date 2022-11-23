@@ -14,7 +14,7 @@ import com.example.testtaskcss.databinding.FragmentPopularBinding
 import com.example.testtaskcss.presentation.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class PopularFragment: Fragment() {
+class PopularFragment : Fragment() {
     private lateinit var binding: FragmentPopularBinding
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var adapter: PopularRateAdapter
@@ -33,7 +33,6 @@ class PopularFragment: Fragment() {
         observePopular()
         observeRefresh()
         setAdapter()
-
     }
 
     private fun observeRefresh() {
@@ -49,9 +48,6 @@ class PopularFragment: Fragment() {
     }
 
     private fun observePopular() {
-
-
-
         lifecycleScope.launchWhenStarted {
             viewModel.popularRateList.collect {
                 adapter.submitList(it)
@@ -68,8 +64,8 @@ class PopularFragment: Fragment() {
             }
 
         })
-        binding.rcRates.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rcRates.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcRates.adapter = adapter
     }
-
 }
