@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/commonFragment"
+        android:icon="@drawable/ic_bottom_menu_popular"
+        android:title="@string/popular"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="1"/>
+
+
+    <item android:id="@+id/favourFragment"
+        android:icon="@drawable/ic_bottom_menu_favour"
+        android:title="@string/favour"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2"/>
+
+    <item android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_bottom_menu_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="0"/>
+</menu>

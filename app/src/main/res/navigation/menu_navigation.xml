@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_navigation"
+    app:startDestination="@id/commonFragment">
+
+    <fragment
+        android:id="@+id/commonFragment"
+        android:name="com.example.testtaskcss.presentation.popular_values.PopularFragment"
+        android:label="CommonFragment" />
+    <fragment
+        android:id="@+id/favourFragment"
+        android:name="com.example.testtaskcss.presentation.favourite_values.FavourFragment"
+        android:label="FavourFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.testtaskcss.presentation.search_values.SearchFragment"
+        android:label="SearchFragment" />
+</navigation>
