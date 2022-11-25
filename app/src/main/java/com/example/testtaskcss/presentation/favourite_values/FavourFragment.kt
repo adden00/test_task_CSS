@@ -5,11 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.models.RateItem
+import com.example.testtaskcss.R
 import com.example.testtaskcss.databinding.FragmentFavourBinding
 import com.example.testtaskcss.presentation.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +35,37 @@ class FavourFragment : Fragment() {
         observeData()
         observeLoading()
         setAdapter()
+        setSpinner()
+        setButtons()
+    }
+
+    private fun setButtons() {
+        binding.btnSort.setOnClickListener {
+            viewModel.showHideFilter()
+
+        }
+
+        binding.includedFilter.btnSort.setOnClickListener {
+            val sortType = binding.includedFilter.spinner.selectedItem.toString()
+            viewModel.sortFavour(sortType)
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.filterIsShown.collect {
+                binding.includedFilterLayout.visibility = if (it) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    private fun setSpinner() {
+        val brandSpinnerAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.sort_types,
+            R.layout.spinner_text_style
+        )
+        brandSpinnerAdapter.setDropDownViewResource(R.layout.spinner_text_style)
+        binding.includedFilter.spinner.adapter = brandSpinnerAdapter
+        binding.includedFilter.spinner.setPopupBackgroundResource(R.drawable.spinner_poup_bg)
     }
 
     private fun observeData() {
@@ -58,7 +92,7 @@ class FavourFragment : Fragment() {
     private fun setAdapter() {
         adapter = FavourRateAdapter(object : FavourRateAdapter.Listener {
             override fun onBtnClick(item: RateItem) {
-                Snackbar.make(binding.root, "removed from favour", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "removed from favour", Snackbar.ANIMATION_MODE_SLIDE).show()
                 viewModel.deleteRateFromFavour(item)
             }
         })
@@ -66,5 +100,6 @@ class FavourFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcRates.adapter = adapter
     }
+
 
 }

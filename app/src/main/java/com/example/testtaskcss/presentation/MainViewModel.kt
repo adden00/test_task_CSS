@@ -36,6 +36,11 @@ class MainViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
+    private val _filterIsShown = MutableStateFlow(false)
+    val filterIsShown: StateFlow<Boolean> = _filterIsShown.asStateFlow()
+
+    private var allItems = listOf<RateItem>()
+
     init {
         viewModelScope.launch {
             loadFavoursFromDb()
@@ -43,19 +48,28 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun loadRate(currencies: String) {
+    fun showHideFilter() {
+        _filterIsShown.value = !_filterIsShown.value
+    }
+
+    fun loadAllRates() {
         _isLoading.value = true
-        val curList = _rateList.value.toMutableList()
         viewModelScope.launch {
-            val result = getExchangeUseCase(currencies)
-            val temp = result.toMutableList()
-            result.forEach {
-                if (it in _rateList.value)
-                    temp.remove(it)
-            }
-            _rateList.value = curList + temp
+            val result = getExchangeUseCase("")
+            _rateList.value = result
             _isLoading.value = false
+            allItems = result
         }
+    }
+
+
+    fun searchItem(filter: String) {
+        val result = mutableListOf<RateItem>()
+        allItems.forEach {
+            if (it.name.lowercase().contains(filter.lowercase()))
+                result.add(it)
+        }
+        _rateList.value = result
     }
 
     fun loadPopularRate() {
@@ -63,7 +77,6 @@ class MainViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             val result = getExchangeUseCase(popularRates)
-            Log.d("MyLog", result.toString())
             _popularRateList.value = result
             _isLoading.value = false
         }
@@ -78,15 +91,15 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateFavouriteRate() {
-        _isLoading.value = false
+
         var response = ""
         _favourRateList.value.forEach {
             response += "${it.name},"
         }
         if (response != "") {
-            Log.d("MyLog", "response: $response")
             response = response.substring(0, response.length - 1)
             _isLoading.value = true
+            Log.d("MyLog", "response: $response")
 
             viewModelScope.launch {
                 val result = getExchangeUseCase(response)
@@ -106,5 +119,19 @@ class MainViewModel @Inject constructor(
     private suspend fun loadFavoursFromDb() {
         val result = getFavourItemsUseCase()
         _favourRateList.value = result
+    }
+
+    fun sortFavour(sortType: String) {
+        when (sortType) {
+            "name" -> {
+                _favourRateList.value = _favourRateList.value.sortedBy { it.name }
+            }
+
+            "rate up" -> {
+                _favourRateList.value = _favourRateList.value.sortedBy { it.rate }
+
+            }
+
+        }
     }
 }

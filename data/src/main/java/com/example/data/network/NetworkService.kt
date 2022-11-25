@@ -9,7 +9,6 @@ private const val API_KEY = "93431f0a1bae151b353302898ffc3f0a"
 class NetworkService(private val api: ExchangeApiClient) {
 
     suspend fun getRate(currencies: String): RateListItem? {
-        Log.d("MyLog", "currencies: $currencies")
         var result: RateListItem? = null
         try {
             result = api.getRate(API_KEY, currencies).body()
