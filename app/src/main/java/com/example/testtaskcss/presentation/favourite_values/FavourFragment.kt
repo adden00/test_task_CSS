@@ -1,12 +1,10 @@
 package com.example.testtaskcss.presentation.favourite_values
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -42,7 +40,6 @@ class FavourFragment : Fragment() {
     private fun setButtons() {
         binding.btnSort.setOnClickListener {
             viewModel.showHideFilter()
-
         }
 
         binding.includedFilter.btnSort.setOnClickListener {
@@ -72,7 +69,6 @@ class FavourFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.favourRateList.collect {
                 adapter.submitList(it)
-                Log.d("MyLog", "submitted! $it")
             }
         }
     }
@@ -92,7 +88,8 @@ class FavourFragment : Fragment() {
     private fun setAdapter() {
         adapter = FavourRateAdapter(object : FavourRateAdapter.Listener {
             override fun onBtnClick(item: RateItem) {
-                Snackbar.make(binding.root, "removed from favour", Snackbar.ANIMATION_MODE_SLIDE).show()
+                Snackbar.make(binding.root, "removed from favour", Snackbar.ANIMATION_MODE_SLIDE)
+                    .show()
                 viewModel.deleteRateFromFavour(item)
             }
         })
@@ -100,6 +97,4 @@ class FavourFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcRates.adapter = adapter
     }
-
-
 }

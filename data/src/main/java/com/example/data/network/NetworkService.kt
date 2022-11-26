@@ -5,7 +5,6 @@ import com.example.domain.models.RateListItem
 import java.lang.Exception
 
 private const val API_KEY = "93431f0a1bae151b353302898ffc3f0a"
-
 class NetworkService(private val api: ExchangeApiClient) {
 
     suspend fun getRate(currencies: String): RateListItem? {

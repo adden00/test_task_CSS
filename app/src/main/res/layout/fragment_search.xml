@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <TextView
                 android:id="@+id/tvHeader"
                 style="@style/Header_text_style"
@@ -40,8 +39,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvHeader"
-                tools:ignore="RtlSymmetry" />
-
+                tools:ignore="RtlSymmetry"
+                android:importantForAutofill="no"
+                android:inputType="text" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcRates"
@@ -66,15 +66,6 @@
                 app:layout_constraintTop_toTopOf="@+id/rcRates"
                 android:visibility="gone"/>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
-
-
 </FrameLayout>

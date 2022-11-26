@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sort_types">
-
-        <item>@string/name</item>
+        <item>@string/name_up</item>
+        <item>@string/name_down</item>
         <item>@string/rate_up</item>
-
+        <item>@string/rate_down</item>
     </string-array>
-
-
 </resources>

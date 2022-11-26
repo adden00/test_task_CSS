@@ -1,13 +1,9 @@
 package com.example.testtaskcss.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.RateItem
-import com.example.domain.usecases.DeleteFavourItemUseCase
-import com.example.domain.usecases.GetExchangeRatingUseCase
-import com.example.domain.usecases.GetFavourItemsUseCase
-import com.example.domain.usecases.InsertFavourItemUseCase
+import com.example.domain.usecases.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +16,8 @@ class MainViewModel @Inject constructor(
     private val getExchangeUseCase: GetExchangeRatingUseCase,
     private val getFavourItemsUseCase: GetFavourItemsUseCase,
     private val insertFavourItemUseCase: InsertFavourItemUseCase,
-    private val deleteFavourItemUseCase: DeleteFavourItemUseCase
+    private val deleteFavourItemUseCase: DeleteFavourItemUseCase,
+    private val deleteAllFavoursUseCase: DeleteAllFavoursUseCase
 ) :
     ViewModel() {
 
@@ -43,8 +40,10 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            loadFavoursFromDb()
             loadPopularRate()
+            getFavourItemsUseCase().collect {
+                _favourRateList.value = it
+            }
         }
     }
 
@@ -61,7 +60,6 @@ class MainViewModel @Inject constructor(
             allItems = result
         }
     }
-
 
     fun searchItem(filter: String) {
         val result = mutableListOf<RateItem>()
@@ -82,16 +80,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
-
     fun insetRateToFavour(item: RateItem) {
         viewModelScope.launch {
             insertFavourItemUseCase(item)
-            loadFavoursFromDb()
+//            loadFavoursFromDb()
         }
     }
 
     fun updateFavouriteRate() {
-
         var response = ""
         _favourRateList.value.forEach {
             response += "${it.name},"
@@ -99,11 +95,13 @@ class MainViewModel @Inject constructor(
         if (response != "") {
             response = response.substring(0, response.length - 1)
             _isLoading.value = true
-            Log.d("MyLog", "response: $response")
 
             viewModelScope.launch {
+                deleteAllFavoursUseCase()
                 val result = getExchangeUseCase(response)
-                _favourRateList.value = result
+                result.forEach {
+                    insertFavourItemUseCase(it)
+                }
                 _isLoading.value = false
             }
         }
@@ -112,26 +110,25 @@ class MainViewModel @Inject constructor(
     fun deleteRateFromFavour(item: RateItem) {
         viewModelScope.launch {
             deleteFavourItemUseCase(item)
-            loadFavoursFromDb()
         }
-    }
-
-    private suspend fun loadFavoursFromDb() {
-        val result = getFavourItemsUseCase()
-        _favourRateList.value = result
     }
 
     fun sortFavour(sortType: String) {
         when (sortType) {
-            "name" -> {
+            "name up" -> {
                 _favourRateList.value = _favourRateList.value.sortedBy { it.name }
+            }
+            "name down" -> {
+                _favourRateList.value = _favourRateList.value.sortedByDescending { it.name }
             }
 
             "rate up" -> {
                 _favourRateList.value = _favourRateList.value.sortedBy { it.rate }
-
             }
 
+            "rate down" -> {
+                _favourRateList.value = _favourRateList.value.sortedByDescending { it.rate }
+            }
         }
     }
 }

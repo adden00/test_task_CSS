@@ -19,7 +19,6 @@ class FavourRateAdapter(private val listener: Listener) :
         override fun areContentsTheSame(oldItem: RateItem, newItem: RateItem): Boolean {
             return oldItem == newItem
         }
-
     }) {
     class ItemHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -31,7 +30,6 @@ class FavourRateAdapter(private val listener: Listener) :
                 listener.onBtnClick(item)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {

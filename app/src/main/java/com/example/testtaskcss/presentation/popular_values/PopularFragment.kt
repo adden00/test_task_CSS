@@ -1,7 +1,6 @@
 package com.example.testtaskcss.presentation.popular_values
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ class PopularFragment : Fragment() {
     private lateinit var binding: FragmentPopularBinding
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var adapter: PopularRateAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +49,6 @@ class PopularFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.popularRateList.collect {
                 adapter.submitList(it)
-                Log.d("MyLog", "submitted! $it")
             }
         }
     }

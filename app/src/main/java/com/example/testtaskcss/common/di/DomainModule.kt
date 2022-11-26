@@ -1,10 +1,7 @@
 package com.example.testtaskcss.common.di
 
 import com.example.domain.repository.RateRepository
-import com.example.domain.usecases.DeleteFavourItemUseCase
-import com.example.domain.usecases.GetExchangeRatingUseCase
-import com.example.domain.usecases.GetFavourItemsUseCase
-import com.example.domain.usecases.InsertFavourItemUseCase
+import com.example.domain.usecases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +21,7 @@ object DomainModule {
 
     @Provides
     fun provideInsertUseCase(repository: RateRepository) = InsertFavourItemUseCase(repository)
+
+    @Provides
+    fun provideDeleteAllUseCase(repository: RateRepository) = DeleteAllFavoursUseCase(repository)
 }

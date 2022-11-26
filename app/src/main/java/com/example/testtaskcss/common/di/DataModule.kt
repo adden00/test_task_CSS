@@ -32,8 +32,6 @@ object DataModule {
     @Singleton
     fun provideNetworkService(apiClient: ExchangeApiClient) = NetworkService(apiClient)
 
-
-
     @Provides
     @Singleton
     fun provideFavourDatabase(@ApplicationContext context: Context): FavourDataBase {
