@@ -20,4 +20,5 @@
     <string name="rate_down">rate down</string>
     <string name="select_sorting_type">select sorting type:</string>
     <string name="clear">clear</string>
+    <string name="starting">Starting…</string>
 </resources>
