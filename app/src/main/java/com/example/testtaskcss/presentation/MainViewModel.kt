@@ -83,11 +83,11 @@ class MainViewModel @Inject constructor(
     fun insetRateToFavour(item: RateItem) {
         viewModelScope.launch {
             insertFavourItemUseCase(item)
-//            loadFavoursFromDb()
         }
     }
 
     fun updateFavouriteRate() {
+
         var response = ""
         _favourRateList.value.forEach {
             response += "${it.name},"
@@ -95,15 +95,24 @@ class MainViewModel @Inject constructor(
         if (response != "") {
             response = response.substring(0, response.length - 1)
             _isLoading.value = true
-
+            clearFavourite()
             viewModelScope.launch {
-                deleteAllFavoursUseCase()
+
                 val result = getExchangeUseCase(response)
                 result.forEach {
                     insertFavourItemUseCase(it)
                 }
                 _isLoading.value = false
             }
+        }
+        else
+            _isLoading.value = true
+            _isLoading.value = false
+    }
+
+    fun clearFavourite() {
+        viewModelScope.launch {
+            deleteAllFavoursUseCase()
         }
     }
 

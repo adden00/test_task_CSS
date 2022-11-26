@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -42,6 +44,10 @@ class FavourFragment : Fragment() {
             viewModel.showHideFilter()
         }
 
+        binding.btnClear.setOnClickListener {
+            viewModel.clearFavourite()
+        }
+
         binding.includedFilter.btnSort.setOnClickListener {
             val sortType = binding.includedFilter.spinner.selectedItem.toString()
             viewModel.sortFavour(sortType)
@@ -49,7 +55,29 @@ class FavourFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.filterIsShown.collect {
-                binding.includedFilterLayout.visibility = if (it) View.VISIBLE else View.GONE
+                if (it) {
+                    binding.includedFilterLayout.visibility = View.VISIBLE
+                    binding.includedFilterLayout.startAnimation(
+                        AnimationUtils.loadAnimation(
+                            requireContext(),
+                            R.anim.open_filter_anim
+                        )
+                    )
+                } else {
+                    val closeAnim =
+                        AnimationUtils.loadAnimation(requireContext(), R.anim.close_filter_anim)
+                    closeAnim.setAnimationListener(object : Animation.AnimationListener {
+                        override fun onAnimationStart(p0: Animation?) {}
+
+                        override fun onAnimationEnd(p0: Animation?) {
+                            binding.includedFilterLayout.visibility = View.GONE
+                        }
+
+                        override fun onAnimationRepeat(p0: Animation?) {}
+                    })
+                    binding.includedFilterLayout.startAnimation(closeAnim)
+
+                }
             }
         }
     }
